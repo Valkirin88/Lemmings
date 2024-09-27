@@ -5,17 +5,23 @@ public class Lemming : MonoBehaviour
     [SerializeField]
     private float _rotationSpeed = 10f;
     [SerializeField]
-    private float _moveSpeed = 3f;
+    private float _moveSpeed = 3000f;
     [SerializeField]
     private Rigidbody _rigidbody;
 
-    private bool _isCollidable = true;
+
     private float _betweenCollisionTime = 1;
-    private float _afterCollisionTime;
+
     private Vector3 _direction;
     private RandomDirection _randomDirection;
-    private Quaternion _targetQuaternion;
-    private Quaternion _transformQuaternion;
+
+
+
+    private Vector3 _lastPosition;
+    private float _afterLastPositionTime;
+    private float _tillNewPositionTime = 1;
+    private float _beforeRotationDistance = 0.5f;
+    private bool _isWait;
 
     private void Start()
     {
@@ -23,50 +29,54 @@ public class Lemming : MonoBehaviour
         ChangeDirection();
     }
 
-    private void OnCollisionStay(Collision collision)
-    {
-        ChangeDirection();
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (_isCollidable)
-        {
-            _isCollidable = false;
-            _afterCollisionTime = 0;
-            ChangeDirection();
-        }
-    }
+  
+   
 
     private void Update()
     {
-        CollisionTimer();
-        Move();
+
+        
         //Rotate();
+
+
+        _afterLastPositionTime += Time.deltaTime; 
+        if(_afterLastPositionTime <= _betweenCollisionTime)
+        {
+
+        }
+        else
+        {
+            _afterLastPositionTime = 0;
+            if (Vector3.Distance(transform.position, _lastPosition) < _beforeRotationDistance)
+            {
+                ChangeDirection();
+                Debug.Log(Vector3.Distance(transform.position, _lastPosition));
+            }
+            _lastPosition = transform.position;
+            Debug.Log(Vector3.Distance(transform.position, _lastPosition));
+        }
+        
+    }
+
+    private void FixedUpdate()
+    {
+        Move();
     }
 
     private void Move()
     {
-        _rigidbody.AddForce( _direction * Time.deltaTime * _moveSpeed);
-        //transform.Translate(_moveSpeed * Time.deltaTime * Vector3.forward, Space.Self);
+
+        _rigidbody.AddForce(Vector3.forward * Time.deltaTime * _moveSpeed, ForceMode.Force);
+
     }
 
-    //private void Rotate()
-    //{
-    //    _transformQuaternion = transform.rotation;
-    //    transform.rotation = Quaternion.Slerp(_transformQuaternion, _targetQuaternion, _rotationSpeed * Time.deltaTime);
-    //}
+  
 
     private void ChangeDirection() 
     {
         transform.eulerAngles =_randomDirection.GetDirection();
-        //_targetQuaternion = Quaternion.Euler(_randomDirection.GetDirection());
+
     }
 
-    private void CollisionTimer()
-    {
-        _afterCollisionTime += Time.deltaTime;
-        if (_afterCollisionTime >= _betweenCollisionTime)
-            _isCollidable = true;
-    }
+
 }
