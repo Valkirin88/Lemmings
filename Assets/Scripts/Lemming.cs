@@ -3,25 +3,20 @@ using UnityEngine;
 public class Lemming : MonoBehaviour
 {
     [SerializeField]
-    private float _rotationSpeed = 10f;
-    [SerializeField]
-    private float _moveSpeed = 3000f;
-    [SerializeField]
     private Rigidbody _rigidbody;
 
-
+    private float _moveSpeed = 500f;
+    private float _maxSpeed = 2;
     private float _betweenCollisionTime = 1;
 
-    private Vector3 _direction;
-    private RandomDirection _randomDirection;
 
+    private RandomDirection _randomDirection;
 
 
     private Vector3 _lastPosition;
     private float _afterLastPositionTime;
-    private float _tillNewPositionTime = 1;
     private float _beforeRotationDistance = 0.5f;
-    private bool _isWait;
+
 
     private void Start()
     {
@@ -29,54 +24,51 @@ public class Lemming : MonoBehaviour
         ChangeDirection();
     }
 
-  
-   
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.GetComponent<Lemming>() != null) 
+        {
+            ChangeDirection();
+        }
+    }
 
     private void Update()
     {
-
-        
-        //Rotate();
-
-
         _afterLastPositionTime += Time.deltaTime; 
-        if(_afterLastPositionTime <= _betweenCollisionTime)
-        {
-
-        }
-        else
+        if(_afterLastPositionTime >= _betweenCollisionTime)
         {
             _afterLastPositionTime = 0;
             if (Vector3.Distance(transform.position, _lastPosition) < _beforeRotationDistance)
             {
                 ChangeDirection();
-                Debug.Log(Vector3.Distance(transform.position, _lastPosition));
             }
             _lastPosition = transform.position;
-            Debug.Log(Vector3.Distance(transform.position, _lastPosition));
         }
-        
     }
 
     private void FixedUpdate()
     {
         Move();
+        LimitVelocity();
     }
 
     private void Move()
     {
-
-        _rigidbody.AddForce(Vector3.forward * Time.deltaTime * _moveSpeed, ForceMode.Force);
-
+        var target = transform.TransformDirection(Vector3.forward) * _moveSpeed;
+        _rigidbody.AddForce(target, ForceMode.Force);
     }
 
-  
+    private void LimitVelocity()
+    {
+        if (_rigidbody.velocity.magnitude > _maxSpeed)
+        {
 
+            Vector3 reduction = (_rigidbody.velocity.normalized * (_rigidbody.velocity.magnitude - _maxSpeed));
+            _rigidbody.AddForce(-reduction, ForceMode.VelocityChange);
+        }
+    }
     private void ChangeDirection() 
     {
         transform.eulerAngles =_randomDirection.GetDirection();
-
     }
-
-
 }
