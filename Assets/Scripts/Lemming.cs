@@ -24,11 +24,16 @@ public class Lemming : MonoBehaviour
         ChangeDirection();
     }
 
+
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.GetComponent<Lemming>() != null) 
+        if(collision.gameObject.GetComponent<Lemming>()) 
         {
             ChangeDirection();
+        }
+        if (collision.gameObject.GetComponent<Wood>())
+        {
+            Destroy(gameObject);
         }
     }
 
