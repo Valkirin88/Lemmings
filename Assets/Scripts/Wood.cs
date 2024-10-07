@@ -4,9 +4,12 @@ public class Wood : MonoBehaviour
 {
     [SerializeField]
     private Rigidbody _rigidbody;
-    public bool IsPileDestroyed;
-    public bool IsRolling;
 
+    public bool IsDangerous;
+    public bool IsPileDestroyed;
+    
+    private bool IsRolling;
+    
     private void FixedUpdate()
     {
         if (IsPileDestroyed && !IsRolling)
@@ -15,10 +18,14 @@ public class Wood : MonoBehaviour
             _rigidbody.AddForce(new Vector3(150,0, 0), ForceMode.Impulse);
             IsRolling = true;
         }
-        //Debug.Log(_rigidbody.velocity.magnitude);
-        if (_rigidbody.velocity.magnitude < 0.01 && IsPileDestroyed) 
+        
+        if (_rigidbody.velocity.magnitude < 0.2 && IsPileDestroyed) 
         {
-            IsRolling=false;
+            IsDangerous = false;
+        }
+        else if (_rigidbody.velocity.magnitude > 1)
+        {
+            IsDangerous = true;
         }
     }
 

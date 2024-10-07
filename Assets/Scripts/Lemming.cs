@@ -48,7 +48,7 @@ public class Lemming : MonoBehaviour
         }
         if (collision.gameObject.TryGetComponent<Wood>(out Wood wood))
         {
-            if(wood.IsRolling)
+            if(wood.IsDangerous)
             Dead();
         }
         if(collision.gameObject.GetComponent<CircularSaw>() && !_isDead)
