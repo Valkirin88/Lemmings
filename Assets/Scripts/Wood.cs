@@ -4,14 +4,26 @@ public class Wood : MonoBehaviour
 {
     [SerializeField]
     private Rigidbody _rigidbody;
-    private bool _IsWorked;
+    public bool IsPileDestroyed;
+    public bool IsRolling;
 
     private void FixedUpdate()
     {
-        if (!_rigidbody.isKinematic && !_IsWorked)
+        if (IsPileDestroyed && !IsRolling)
         {
-            _rigidbody.AddForce(new Vector3(0,0, Random.Range(-30, 30)) * 20, ForceMode.Impulse);
-            _IsWorked = true;
+            _rigidbody.isKinematic = false;
+            _rigidbody.AddForce(new Vector3(150,0, 0), ForceMode.Impulse);
+            IsRolling = true;
         }
+        //Debug.Log(_rigidbody.velocity.magnitude);
+        if (_rigidbody.velocity.magnitude < 0.01 && IsPileDestroyed) 
+        {
+            IsRolling=false;
+        }
+    }
+
+    public void StartMoving()
+    {
+        IsPileDestroyed = true;
     }
 }

@@ -1,13 +1,28 @@
+using System;
 using UnityEngine;
 
 public class Lemming : MonoBehaviour
 {
     [SerializeField]
     private Rigidbody _rigidbody;
+    [SerializeField]
+    private ParticleSystem _bloodSpray;
+    [SerializeField]
+    private ParticleSystem _bloodSpill;
+    [SerializeField]
+    private MeshRenderer _meshRenderer;
+    [SerializeField]
+    private Collider _collider;
+    [SerializeField]
+    private AudioSource _audioSource;
+    [SerializeField]
+    private AudioClip _audioClip;
 
-    private float _moveSpeed = 500f;
+    private float _moveSpeed = 50f;
     private float _maxSpeed = 2;
     private float _betweenCollisionTime = 1;
+
+    private bool _isDead;
 
 
     private RandomDirection _randomDirection;
@@ -31,23 +46,49 @@ public class Lemming : MonoBehaviour
         {
             ChangeDirection();
         }
-        if (collision.gameObject.GetComponent<Wood>())
+        if (collision.gameObject.TryGetComponent<Wood>(out Wood wood))
         {
-            Destroy(gameObject);
+            if(wood.IsRolling)
+            Dead();
         }
+        if(collision.gameObject.GetComponent<CircularSaw>() && !_isDead)
+        {
+            SawDeath();
+        }
+      
+    }
+
+    private void SawDeath()
+    {
+        Dead();
+
+        _audioSource.PlayOneShot(_audioClip);
+    }
+
+    private void Dead()
+    {
+        _rigidbody.isKinematic = true;
+        _isDead = true;
+        _collider.enabled = false;
+        _meshRenderer.enabled = false;
+        _bloodSpill.Play();
+        _bloodSpray.Play();
     }
 
     private void Update()
     {
-        _afterLastPositionTime += Time.deltaTime; 
-        if(_afterLastPositionTime >= _betweenCollisionTime)
+        if (!_isDead)
         {
-            _afterLastPositionTime = 0;
-            if (Vector3.Distance(transform.position, _lastPosition) < _beforeRotationDistance)
+            _afterLastPositionTime += Time.deltaTime;
+            if (_afterLastPositionTime >= _betweenCollisionTime)
             {
-                ChangeDirection();
+                _afterLastPositionTime = 0;
+                if (Vector3.Distance(transform.position, _lastPosition) < _beforeRotationDistance)
+                {
+                    ChangeDirection();
+                }
+                _lastPosition = transform.position;
             }
-            _lastPosition = transform.position;
         }
     }
 
@@ -59,8 +100,11 @@ public class Lemming : MonoBehaviour
 
     private void Move()
     {
-        var target = transform.TransformDirection(Vector3.forward) * _moveSpeed;
-        _rigidbody.AddForce(target, ForceMode.Force);
+        if (!_isDead)
+        {
+            var target = transform.TransformDirection(Vector3.forward) * _moveSpeed;
+            _rigidbody.AddForce(target, ForceMode.Force);
+        }
     }
 
     private void LimitVelocity()
