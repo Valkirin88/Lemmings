@@ -60,19 +60,24 @@ public class Lemming : MonoBehaviour
 
     private void SawDeath()
     {
+        ShowDeath();
         Dead();
 
         _audioSource.PlayOneShot(_audioClip);
     }
 
-    private void Dead()
+    private void ShowDeath()
+    {
+        _bloodSpill.Play();
+        _bloodSpray.Play();
+    }
+
+    public void Dead()
     {
         _rigidbody.isKinematic = true;
         _isDead = true;
         _collider.enabled = false;
         _meshRenderer.enabled = false;
-        _bloodSpill.Play();
-        _bloodSpray.Play();
     }
 
     private void Update()
@@ -116,7 +121,7 @@ public class Lemming : MonoBehaviour
             _rigidbody.AddForce(-reduction, ForceMode.VelocityChange);
         }
     }
-    private void ChangeDirection() 
+    public void ChangeDirection() 
     {
         transform.eulerAngles =_randomDirection.GetDirection();
     }

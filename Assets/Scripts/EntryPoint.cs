@@ -1,18 +1,22 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EntryPoint : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    private List<Lemming> _lemmings;
+
+    private InputHandler _inputHandler;
+    private LemmingsController _lemmingsController;
+
+    private void Awake()
     {
-        
+        _inputHandler = new InputHandler();
+        _lemmingsController = new LemmingsController(_inputHandler, _lemmings);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        _inputHandler.Update();
     }
 }
