@@ -19,11 +19,11 @@ public class Wood : MonoBehaviour
             IsRolling = true;
         }
         
-        if (_rigidbody.velocity.magnitude < 0.2 && IsPileDestroyed) 
+        if (_rigidbody.velocity.magnitude < 2 && IsPileDestroyed) 
         {
             IsDangerous = false;
         }
-        else if (_rigidbody.velocity.magnitude > 1)
+        else if (_rigidbody.velocity.magnitude > 2)
         {
             IsDangerous = true;
         }

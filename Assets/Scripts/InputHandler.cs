@@ -13,8 +13,8 @@ public class InputHandler
 
             if (Physics.Raycast(ray, out hit))
             {
-                if (hit.collider.gameObject.TryGetComponent<Lemming>(out Lemming lemming))
-                    OnLemmingClicked?.Invoke(lemming);
+                if (hit.collider.gameObject.TryGetComponent<LemmingInputCollider>(out LemmingInputCollider lemmingInputCollider))
+                    OnLemmingClicked?.Invoke(lemmingInputCollider.Lemming);
             }
         }
     }

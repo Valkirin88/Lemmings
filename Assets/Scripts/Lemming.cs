@@ -20,17 +20,10 @@ public class Lemming : MonoBehaviour
 
     private float _moveSpeed = 50f;
     private float _maxSpeed = 2;
-    private float _betweenCollisionTime = 1;
 
     private bool _isDead;
 
-
     private RandomDirection _randomDirection;
-
-
-    private Vector3 _lastPosition;
-    private float _afterLastPositionTime;
-    private float _beforeRotationDistance = 0.5f;
 
 
     private void Start()
@@ -48,14 +41,17 @@ public class Lemming : MonoBehaviour
         }
         if (collision.gameObject.TryGetComponent<Wood>(out Wood wood))
         {
-            if(wood.IsDangerous)
-            Dead();
+            if (wood.IsDangerous)
+            {
+                Dead();
+                ShowDeath();
+            }
+
         }
         if(collision.gameObject.GetComponent<CircularSaw>() && !_isDead)
         {
             SawDeath();
         }
-      
     }
 
     private void SawDeath()
@@ -84,16 +80,10 @@ public class Lemming : MonoBehaviour
     {
         if (!_isDead)
         {
-            _afterLastPositionTime += Time.deltaTime;
-            if (_afterLastPositionTime >= _betweenCollisionTime)
-            {
-                _afterLastPositionTime = 0;
-                if (Vector3.Distance(transform.position, _lastPosition) < _beforeRotationDistance)
-                {
-                    ChangeDirection();
-                }
-                _lastPosition = transform.position;
-            }
+           if(_rigidbody.velocity.magnitude < 0.1)
+           {
+                ChangeDirection();
+           }
         }
     }
 
@@ -123,6 +113,8 @@ public class Lemming : MonoBehaviour
     }
     public void ChangeDirection() 
     {
-        transform.eulerAngles =_randomDirection.GetDirection();
+        var direction = _randomDirection.GetDirection();
+        Quaternion rotation = Quaternion.LookRotation(direction); // Преобразуем в Quaternion
+        transform.rotation = rotation;
     }
 }

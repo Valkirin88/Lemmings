@@ -3,14 +3,21 @@ using UnityEngine;
 public class RandomDirection 
 {
     private int[] _directionsAngles;
+    private Vector3 _previousDirection;
+    private Vector3 _direction;
     public RandomDirection()
     {
-        _directionsAngles = new int[] { 0, 22, 45, 67, 90, 112, 135, 157, 180, -22, -45, -67, -90, -112, -135, -157};
+        _directionsAngles = new int[] { 0,45, 90, 135, 180, 225, 270};
     }
 
     public Vector3 GetDirection()
     {
-        Vector3 direction = new Vector3(0, _directionsAngles[Random.Range(0, _directionsAngles.Length)], 0);
-        return direction;
+        while (_previousDirection == _direction)
+        {
+            _direction = new Vector3(0, _directionsAngles[Random.Range(0, _directionsAngles.Length)], 0);
+        }
+        _previousDirection = _direction;
+        Debug.Log(_direction.y);
+        return _direction;
     }
 }

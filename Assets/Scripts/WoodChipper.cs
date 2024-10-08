@@ -36,8 +36,6 @@ public class WoodChipper : MonoBehaviour
     {
         _lemming.Dead();
          PlayMixerSound();
-        
-        Debug.Log("show blood");
     }
 
     private void PlayMixerSound()

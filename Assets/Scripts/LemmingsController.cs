@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LemmingsController : MonoBehaviour
-{
+public class LemmingsController
+{ 
     private List<Lemming> _lemmings;
     private InputHandler _inputHandler;
 
