@@ -24,6 +24,7 @@ public class Lemming : MonoBehaviour
     private bool _isDead;
 
     private RandomDirection _randomDirection;
+    private Vector3 _direction;
 
 
     private void Start()
@@ -80,6 +81,7 @@ public class Lemming : MonoBehaviour
     {
         if (!_isDead)
         {
+            transform.eulerAngles = _direction;
            if(_rigidbody.velocity.magnitude < 0.1)
            {
                 ChangeDirection();
@@ -113,8 +115,9 @@ public class Lemming : MonoBehaviour
     }
     public void ChangeDirection() 
     {
-        var direction = _randomDirection.GetDirection();
-        Quaternion rotation = Quaternion.LookRotation(direction); // Преобразуем в Quaternion
-        transform.rotation = rotation;
+        _direction = _randomDirection.GetDirection();
+        transform.eulerAngles = _direction;
+        Debug.Log(_direction);
+        Debug.Log(transform.eulerAngles);
     }
 }
