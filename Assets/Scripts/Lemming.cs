@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Lemming : MonoBehaviour
@@ -21,6 +22,7 @@ public class Lemming : MonoBehaviour
     private float _maxSpeed = 2;
 
     private bool _isDead;
+    private bool _isHangedUp;
 
     private RandomDirection _randomDirection;
     private Vector3 _direction;
@@ -78,13 +80,31 @@ public class Lemming : MonoBehaviour
 
     private void Update()
     {
-        if (!_isDead)
+        if (!_isDead && !_isHangedUp)
         {
             transform.eulerAngles = _direction;
            if(_rigidbody.velocity.magnitude < 0.01)
            {
                 ChangeDirection();
            }
+        }
+    }
+
+    public void HangUp()
+    {
+        _isHangedUp = true;
+    }
+
+    public void Drop()
+    {
+        _isHangedUp = false;
+    }
+
+    public void SetHangPosition(Vector3 position)
+    {
+        if(_isHangedUp) 
+        {
+            transform.position = position;
         }
     }
 
@@ -96,7 +116,7 @@ public class Lemming : MonoBehaviour
 
     private void Move()
     {
-        if (!_isDead)
+        if (!_isDead && !_isHangedUp)
         {
             var target = transform.TransformDirection(Vector3.forward) * _moveSpeed;
             _rigidbody.AddForce(target, ForceMode.Force);
