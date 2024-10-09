@@ -31,6 +31,8 @@ public class CircularSaw : MonoBehaviour
                 Wood wood1 = leftPart.AddComponent<Wood>();
                 Wood wood2 = rightPart.AddComponent<Wood>();
                 wood1.Rigidbody = rigidbody1;
+                wood1.IsPileDestroyed = true;
+                wood2.IsPileDestroyed = true;
                 wood2.Rigidbody = rigidbody2;
                 rigidbody1.isKinematic = false;
                 rigidbody2.isKinematic = false;

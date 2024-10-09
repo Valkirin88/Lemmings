@@ -7,6 +7,7 @@ public class Wood : MonoBehaviour
 
     public bool IsDangerous;
     public bool IsPileDestroyed;
+    public float Velocity;
     
     private bool IsRolling;
 
@@ -29,6 +30,7 @@ public class Wood : MonoBehaviour
         {
             IsDangerous = true;
         }
+        Velocity = Rigidbody.velocity.magnitude;
     }
 
     private void Update()
