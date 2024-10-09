@@ -36,8 +36,10 @@ public class CircularSaw : MonoBehaviour
                 wood2.Rigidbody = rigidbody2;
                 rigidbody1.isKinematic = false;
                 rigidbody2.isKinematic = false;
-                rigidbody1.AddForce(new Vector3(50, 0, 0), ForceMode.Impulse);
-                rigidbody2.AddForce(new Vector3(50, 0, 0), ForceMode.Impulse);
+                rigidbody1.mass = 10;
+                rigidbody2.mass = 10;
+                rigidbody1.AddForce(new Vector3(2, 0, 0), ForceMode.Impulse);
+                rigidbody2.AddForce(new Vector3(2, 0, 0), ForceMode.Impulse);
             }
         }
     }
