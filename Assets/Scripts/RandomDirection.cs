@@ -17,7 +17,6 @@ public class RandomDirection
             _direction = new Vector3(0, _directionsAngles[Random.Range(0, _directionsAngles.Length)], 0);
         }
         _previousDirection = _direction;
-        Debug.Log(_direction.y);
         return _direction;
     }
 }

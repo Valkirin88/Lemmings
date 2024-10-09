@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class Lemming : MonoBehaviour
@@ -82,7 +81,7 @@ public class Lemming : MonoBehaviour
         if (!_isDead)
         {
             transform.eulerAngles = _direction;
-           if(_rigidbody.velocity.magnitude < 0.1)
+           if(_rigidbody.velocity.magnitude < 0.01)
            {
                 ChangeDirection();
            }
@@ -117,7 +116,5 @@ public class Lemming : MonoBehaviour
     {
         _direction = _randomDirection.GetDirection();
         transform.eulerAngles = _direction;
-        Debug.Log(_direction);
-        Debug.Log(transform.eulerAngles);
     }
 }

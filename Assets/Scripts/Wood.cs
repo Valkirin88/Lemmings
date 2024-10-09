@@ -15,7 +15,7 @@ public class Wood : MonoBehaviour
         if (IsPileDestroyed && !IsRolling)
         {
             _rigidbody.isKinematic = false;
-            _rigidbody.AddForce(new Vector3(150,0, 0), ForceMode.Impulse);
+            _rigidbody.AddForce(new Vector3(200,0, 0), ForceMode.Impulse);
             IsRolling = true;
         }
         
