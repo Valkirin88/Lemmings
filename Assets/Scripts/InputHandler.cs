@@ -7,31 +7,32 @@ public class InputHandler
     public event Action<Lemming> OnLemmingUnclicked;
     public event Action<Vector3> OnMousebuttonDownStayed;
 
-    private GameObject _groundObject;
     private Lemming _lemming;
-    private LayerMask _layerMask;
+    private LayerMask _hanglayerMask;
+    private LayerMask _lemmingLayerMask;
 
-    public InputHandler(GameObject groundObjcet, LayerMask layerMask)
+    public InputHandler(LayerMask hanglayerMask, LayerMask lemmingLayerMask)
     {
-        _groundObject = groundObjcet;
-        _layerMask = layerMask;
+        _hanglayerMask = hanglayerMask;
+        _lemmingLayerMask = lemmingLayerMask;
     }
     public void Update()
     {
         if(Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
+            RaycastHit[] hits = Physics.RaycastAll(ray, float.MaxValue, _lemmingLayerMask);
 
-            if (Physics.Raycast(ray, out hit))
+            foreach (var hit in hits)
             {
                 if (hit.collider.gameObject.TryGetComponent<LemmingInputCollider>(out LemmingInputCollider lemmingInputCollider))
-                {
-                    _lemming = lemmingInputCollider.Lemming;
-                    OnLemmingClicked?.Invoke(_lemming);
+                    {
+                        _lemming = lemmingInputCollider.Lemming;
+                        OnLemmingClicked?.Invoke(_lemming);
+                    }
                 }
-            }
         }
+
         if(Input.GetMouseButton(0))
         {
             if (_lemming != null)
@@ -39,12 +40,11 @@ public class InputHandler
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
 
-                if (Physics.Raycast(ray, out hit, float.MaxValue, _layerMask))
+                if (Physics.Raycast(ray, out hit, float.MaxValue, _hanglayerMask))
                 {
                     OnMousebuttonDownStayed?.Invoke(hit.point);
                 }
             }
-          
         }
 
         if(Input.GetMouseButtonUp(0))

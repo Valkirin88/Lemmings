@@ -8,14 +8,16 @@ public class EntryPoint : MonoBehaviour
     [SerializeField]
     private GameObject _groundObject;
     [SerializeField]
-    private LayerMask _layerMask;
+    private LayerMask _hangLayerMask;
+    [SerializeField]
+    private LayerMask _lemmingLayerMask;
 
     private InputHandler _inputHandler;
     private LemmingsController _lemmingsController;
 
     private void Awake()
     {
-        _inputHandler = new InputHandler(_groundObject,_layerMask);
+        _inputHandler = new InputHandler(_hangLayerMask, _lemmingLayerMask);
         _lemmingsController = new LemmingsController(_inputHandler, _lemmings);
     }
 

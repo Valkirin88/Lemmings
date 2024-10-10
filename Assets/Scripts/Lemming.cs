@@ -19,10 +19,12 @@ public class Lemming : MonoBehaviour
     private AudioClip _audioClip;
 
     private float _moveSpeed = 50f;
+    private float _dropSpeed = 500f;
     private float _maxSpeed = 2;
 
     private bool _isDead;
     private bool _isHangedUp;
+    private bool _isGrounded;
 
     private RandomDirection _randomDirection;
     private Vector3 _direction;
@@ -53,6 +55,10 @@ public class Lemming : MonoBehaviour
         if(collision.gameObject.GetComponent<CircularSaw>() && !_isDead)
         {
             SawDeath();
+        }
+        if( collision.gameObject.GetComponent<Ground>())
+        {
+            _isGrounded = true;
         }
     }
 
@@ -92,6 +98,7 @@ public class Lemming : MonoBehaviour
 
     public void HangUp()
     {
+        _isGrounded = false;
         _isHangedUp = true;
     }
 
@@ -120,6 +127,11 @@ public class Lemming : MonoBehaviour
         {
             var target = transform.TransformDirection(Vector3.forward) * _moveSpeed;
             _rigidbody.AddForce(target, ForceMode.Force);
+            if (!_isGrounded)
+            {
+                var target_down = transform.TransformDirection(Vector3.down) * _dropSpeed;
+                _rigidbody.AddForce(target_down, ForceMode.Force);
+            }
         }
     }
 
