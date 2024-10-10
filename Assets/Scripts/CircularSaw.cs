@@ -16,7 +16,6 @@ public class CircularSaw : MonoBehaviour
     {
         if(collision.gameObject.TryGetComponent<Wood>(out Wood wood))
         {
-            Debug.Log("Wood collided");
             if (wood.LifeTime >= 2)
             {
                 _woodObject = wood.gameObject;
