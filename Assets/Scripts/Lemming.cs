@@ -62,6 +62,14 @@ public class Lemming : MonoBehaviour
         }
     }
 
+    private void OnCollisionStay(Collision collision)
+    {
+        if(collision.gameObject.GetComponent<Lemming>())
+        {
+            ChangeDirection();
+        }
+    }
+
     private void SawDeath()
     {
         ShowDeath();

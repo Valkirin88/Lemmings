@@ -691,26 +691,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 715683124197460549, guid: 00b1ecf7026a3c241b25a588b81d5b86, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 2725512424346924396, guid: 00b1ecf7026a3c241b25a588b81d5b86, type: 3}
-      propertyPath: m_ReceiveShadows
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2725512424364838246, guid: 00b1ecf7026a3c241b25a588b81d5b86, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 2725512424364894466, guid: 00b1ecf7026a3c241b25a588b81d5b86, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 3538597374934141328, guid: 00b1ecf7026a3c241b25a588b81d5b86, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
+    - target: {fileID: 1056033325534777240, guid: 00b1ecf7026a3c241b25a588b81d5b86, type: 3}
+      propertyPath: _collider
+      value: 
+      objectReference: {fileID: 1137982293}
     - target: {fileID: 4749173517726593953, guid: 00b1ecf7026a3c241b25a588b81d5b86, type: 3}
       propertyPath: m_LocalPosition.x
       value: -17.72
@@ -754,14 +738,6 @@ PrefabInstance:
     - target: {fileID: 5378323294476396827, guid: 00b1ecf7026a3c241b25a588b81d5b86, type: 3}
       propertyPath: m_Name
       value: Lemming
-      objectReference: {fileID: 0}
-    - target: {fileID: 5378323294476396827, guid: 00b1ecf7026a3c241b25a588b81d5b86, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 8316948815312261451, guid: 00b1ecf7026a3c241b25a588b81d5b86, type: 3}
-      propertyPath: m_Mass
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1319,6 +1295,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45a54245058dea54db1b1d130b5b4a55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &1137982293 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 5695500609022629619, guid: 00b1ecf7026a3c241b25a588b81d5b86, type: 3}
+  m_PrefabInstance: {fileID: 583446055}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1416339245 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 7d18087cd0266d641832aa82e2d578e8, type: 3}

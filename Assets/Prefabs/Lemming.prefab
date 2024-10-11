@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2902210576889794413}
   - component: {fileID: 2646472686286766336}
   - component: {fileID: 759808044132782928}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: InputCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78,6 +78,10 @@ PrefabInstance:
     - target: {fileID: 192166, guid: c6de9c3e430816d40aedcaaf84000975, type: 3}
       propertyPath: m_Name
       value: BloodPoolGrowing
+      objectReference: {fileID: 0}
+    - target: {fileID: 192166, guid: c6de9c3e430816d40aedcaaf84000975, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 485552, guid: c6de9c3e430816d40aedcaaf84000975, type: 3}
       propertyPath: m_LocalScale.x
@@ -182,6 +186,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: BloodSplatDirectional2
       objectReference: {fileID: 0}
+    - target: {fileID: 142478, guid: 120d855bc18f7fa4f8c46575d5629105, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 182506, guid: 120d855bc18f7fa4f8c46575d5629105, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 470266, guid: 120d855bc18f7fa4f8c46575d5629105, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.03
@@ -243,6 +255,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 19960964, guid: 120d855bc18f7fa4f8c46575d5629105, type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19960964, guid: 120d855bc18f7fa4f8c46575d5629105, type: 3}
       propertyPath: m_Materials.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -291,7 +307,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 04f669d4bd1d0a44787c7cb72c756625, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.39
+      value: 1.62
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 04f669d4bd1d0a44787c7cb72c756625, type: 3}
       propertyPath: m_LocalPosition.z
@@ -333,6 +349,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Lemming
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 04f669d4bd1d0a44787c7cb72c756625, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -348,9 +368,6 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 04f669d4bd1d0a44787c7cb72c756625, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5946827678953449867}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 04f669d4bd1d0a44787c7cb72c756625, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 8316948815312261451}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 04f669d4bd1d0a44787c7cb72c756625, type: 3}
       insertIndex: -1
@@ -358,6 +375,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 04f669d4bd1d0a44787c7cb72c756625, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5286006754304698891}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 04f669d4bd1d0a44787c7cb72c756625, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5695500609022629619}
   m_SourcePrefab: {fileID: 100100000, guid: 04f669d4bd1d0a44787c7cb72c756625, type: 3}
 --- !u!4 &4749173517726593953 stripped
 Transform:
@@ -369,29 +389,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 04f669d4bd1d0a44787c7cb72c756625, type: 3}
   m_PrefabInstance: {fileID: 5071841923421197386}
   m_PrefabAsset: {fileID: 0}
---- !u!136 &5946827678953449867
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5378323294476396827}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.008169497
-  m_Height: 0.023791011
-  m_Direction: 1
-  m_Center: {x: 0.00000010430813, y: 0.0020670872, z: -0.0028936618}
 --- !u!54 &8316948815312261451
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -435,7 +432,7 @@ MonoBehaviour:
   _bloodSpray: {fileID: 715683124182608547}
   _bloodSpill: {fileID: 2725512424345252972}
   _meshRenderer: {fileID: 5882643370531539150}
-  _collider: {fileID: 5946827678953449867}
+  _collider: {fileID: 0}
   _audioSource: {fileID: 5286006754304698891}
   _audioClip: {fileID: 8300000, guid: c37980e968262dd448d31e911220673a, type: 3}
 --- !u!82 &5286006754304698891
@@ -534,6 +531,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &5695500609022629619
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5378323294476396827}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.016, y: 0.023791011, z: 0.013}
+  m_Center: {x: 0.00000010430813, y: 0.0020670872, z: -0.0028936618}
 --- !u!23 &5882643370531539150 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 04f669d4bd1d0a44787c7cb72c756625, type: 3}
