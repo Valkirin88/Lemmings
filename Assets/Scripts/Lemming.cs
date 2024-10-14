@@ -17,6 +17,8 @@ public class Lemming : MonoBehaviour
     private AudioSource _audioSource;
     [SerializeField]
     private AudioClip _audioClip;
+    [SerializeField]
+    private GameObject _fireObject;
 
     private float _moveSpeed = 50f;
     private float _dropSpeed = 500f;
@@ -25,10 +27,12 @@ public class Lemming : MonoBehaviour
     private bool _isDead;
     private bool _isHangedUp;
     private bool _isGrounded;
+    public bool IsInFire;
 
     private RandomDirection _randomDirection;
     private Vector3 _direction;
 
+    
 
     private void Start()
     {
@@ -39,8 +43,17 @@ public class Lemming : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.GetComponent<Lemming>()) 
+        if(collision.gameObject.TryGetComponent<Lemming>(out Lemming lemming)) 
         {
+            if(IsInFire)
+            {
+                lemming.SetFire();
+            }
+            if(lemming.IsInFire)
+            {
+                IsInFire = true;
+            }
+
             ChangeDirection();
         }
         if (collision.gameObject.TryGetComponent<Log>(out Log wood))
@@ -62,12 +75,27 @@ public class Lemming : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.GetComponent<Bonfire>() || IsInFire)
+        {
+            SetFire();
+        }
+    }
+
     private void OnCollisionStay(Collision collision)
     {
         if(collision.gameObject.GetComponent<Lemming>())
         {
             ChangeDirection();
         }
+    }
+
+    public void SetFire()
+    {
+        IsInFire = true;
+        _fireObject.SetActive(true);
+        Invoke("Dead", 3);
     }
 
     private void SawDeath()
@@ -86,6 +114,7 @@ public class Lemming : MonoBehaviour
 
     public void Dead()
     {
+        _fireObject.SetActive(false);
         _rigidbody.isKinematic = true;
         _isDead = true;
         _collider.enabled = false;
@@ -135,6 +164,11 @@ public class Lemming : MonoBehaviour
         {
             var target = transform.TransformDirection(Vector3.forward) * _moveSpeed;
             _rigidbody.AddForce(target, ForceMode.Force);
+            if(IsInFire) 
+            {
+                 target = transform.TransformDirection(Vector3.forward) * _moveSpeed * 5;
+                _rigidbody.AddForce(target, ForceMode.Force);
+            }
             if (!_isGrounded)
             {
                 var target_down = transform.TransformDirection(Vector3.down) * _dropSpeed;
