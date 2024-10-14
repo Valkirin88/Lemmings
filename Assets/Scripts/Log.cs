@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Wood : MonoBehaviour
+public class Log : MonoBehaviour
 {
     public Rigidbody Rigidbody;
     public float LifeTime;
@@ -9,20 +9,25 @@ public class Wood : MonoBehaviour
     public bool IsPileDestroyed;
     public float Velocity;
     
-    private bool IsRolling;
-
-    
     
     private void FixedUpdate()
     {
-        if (IsPileDestroyed && !IsRolling)
+        SetDanger();
+    }
+
+    private void Update()
+    {
+        LifeTime += Time.deltaTime;
+        if(IsPileDestroyed && Rigidbody.isKinematic)
         {
             Rigidbody.isKinematic = false;
-            Rigidbody.AddForce(new Vector3(200,0, 0), ForceMode.Impulse);
-            IsRolling = true;
+            gameObject.transform.SetParent(null);
         }
-        
-        if (Rigidbody.velocity.magnitude < 2 && IsPileDestroyed) 
+    }
+
+    private void SetDanger()
+    {
+        if (Rigidbody.velocity.magnitude < 2 && IsPileDestroyed)
         {
             IsDangerous = false;
         }
@@ -31,11 +36,6 @@ public class Wood : MonoBehaviour
             IsDangerous = true;
         }
         Velocity = Rigidbody.velocity.magnitude;
-    }
-
-    private void Update()
-    {
-        LifeTime += Time.deltaTime;
     }
 
     public void StartMoving()

@@ -1,6 +1,5 @@
 using UnityEngine;
 using EzySlice;
-using Unity.VisualScripting;
 
 public class CircularSaw : MonoBehaviour
 {
@@ -15,11 +14,11 @@ public class CircularSaw : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.TryGetComponent<Wood>(out Wood wood))
+        if(collision.gameObject.TryGetComponent<Log>(out Log log))
         {
-            if (wood.LifeTime >= 2)
+            if (log.LifeTime >= 2)
             {
-                _woodObject = wood.gameObject;
+                _woodObject = log.gameObject;
                 _slicedObjects = Slice(new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z), new Vector3(0, 0, 1), new TextureRegion());
                 var leftPart = _slicedObjects[0];
                 var rightPart = _slicedObjects[1];
@@ -28,18 +27,19 @@ public class CircularSaw : MonoBehaviour
                 CapsuleCollider capsuleCollider2 = rightPart.AddComponent<CapsuleCollider>();
                 Rigidbody rigidbody1 = leftPart.AddComponent<Rigidbody>();
                 Rigidbody rigidbody2 = rightPart.AddComponent<Rigidbody>();
-                Wood wood1 = leftPart.AddComponent<Wood>();
-                Wood wood2 = rightPart.AddComponent<Wood>();
-                wood1.Rigidbody = rigidbody1;
-                wood1.IsPileDestroyed = true;
-                wood2.IsPileDestroyed = true;
-                wood2.Rigidbody = rigidbody2;
+                Log log1 = leftPart.AddComponent<Log>();
+                Log log2 = rightPart.AddComponent<Log>();
+                log1.Rigidbody = rigidbody1;
+                log1.IsPileDestroyed = true;
+                log2.IsPileDestroyed = true;
+                log2.Rigidbody = rigidbody2;
                 rigidbody1.isKinematic = false;
                 rigidbody2.isKinematic = false;
                 rigidbody1.mass = 10;
                 rigidbody2.mass = 10;
-                rigidbody1.AddForce(new Vector3(2, 0, 0), ForceMode.Impulse);
-                rigidbody2.AddForce(new Vector3(2, 0, 0), ForceMode.Impulse);
+                rigidbody1.AddForce(new Vector3(200, 0, 0), ForceMode.Impulse);
+                rigidbody2.AddForce(new Vector3(200, 0, 0), ForceMode.Impulse);
+                Debug.Log("logacc");
             }
         }
     }

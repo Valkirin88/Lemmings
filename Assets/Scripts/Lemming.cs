@@ -43,7 +43,7 @@ public class Lemming : MonoBehaviour
         {
             ChangeDirection();
         }
-        if (collision.gameObject.TryGetComponent<Wood>(out Wood wood))
+        if (collision.gameObject.TryGetComponent<Log>(out Log wood))
         {
             if (wood.IsDangerous)
             {
@@ -147,7 +147,6 @@ public class Lemming : MonoBehaviour
     {
         if (_rigidbody.velocity.magnitude > _maxSpeed)
         {
-
             Vector3 reduction = (_rigidbody.velocity.normalized * (_rigidbody.velocity.magnitude - _maxSpeed));
             _rigidbody.AddForce(-reduction, ForceMode.VelocityChange);
         }
