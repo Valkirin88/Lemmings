@@ -431,7 +431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45a54245058dea54db1b1d130b5b4a55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rigidbody: {fileID: 8316948815312261451}
+  Rigidbody: {fileID: 8316948815312261451}
   _bloodSpray: {fileID: 715683124182608547}
   _bloodSpill: {fileID: 2725512424345252972}
   _meshRenderer: {fileID: 5882643370531539150}

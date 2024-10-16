@@ -1,10 +1,12 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Lemming : MonoBehaviour
 {
-    [SerializeField]
-    private Rigidbody _rigidbody;
+    public bool IsInFire;
+    public bool _isDead;
+    public float LifeTime;
+
+    public Rigidbody Rigidbody;
     [SerializeField]
     private ParticleSystem _bloodSpray;
     [SerializeField]
@@ -24,15 +26,11 @@ public class Lemming : MonoBehaviour
     private float _dropSpeed = 500f;
     private float _maxSpeed = 2;
 
-    private bool _isDead;
     private bool _isHangedUp;
     private bool _isGrounded;
-    public bool IsInFire;
 
     private RandomDirection _randomDirection;
     private Vector3 _direction;
-
-    
 
     private void Start()
     {
@@ -53,8 +51,8 @@ public class Lemming : MonoBehaviour
             {
                 IsInFire = true;
             }
-
-            ChangeDirection();
+            if(!_isDead) 
+                ChangeDirection();
         }
         if (collision.gameObject.TryGetComponent<Log>(out Log wood))
         {
@@ -115,7 +113,7 @@ public class Lemming : MonoBehaviour
     public void Dead()
     {
         _fireObject.SetActive(false);
-        _rigidbody.isKinematic = true;
+        Rigidbody.isKinematic = true;
         _isDead = true;
         _collider.enabled = false;
         _meshRenderer.enabled = false;
@@ -126,11 +124,12 @@ public class Lemming : MonoBehaviour
         if (!_isDead && !_isHangedUp)
         {
             transform.eulerAngles = _direction;
-           if(_rigidbody.velocity.magnitude < 0.01)
+           if(Rigidbody.velocity.magnitude < 0.01)
            {
                 ChangeDirection();
            }
         }
+        LifeTime += Time.deltaTime;
     }
 
     public void HangUp()
@@ -163,26 +162,26 @@ public class Lemming : MonoBehaviour
         if (!_isDead && !_isHangedUp)
         {
             var target = transform.TransformDirection(Vector3.forward) * _moveSpeed;
-            _rigidbody.AddForce(target, ForceMode.Force);
+            Rigidbody.AddForce(target, ForceMode.Force);
             if(IsInFire) 
             {
                  target = transform.TransformDirection(Vector3.forward) * _moveSpeed * 5;
-                _rigidbody.AddForce(target, ForceMode.Force);
+                Rigidbody.AddForce(target, ForceMode.Force);
             }
             if (!_isGrounded)
             {
                 var target_down = transform.TransformDirection(Vector3.down) * _dropSpeed;
-                _rigidbody.AddForce(target_down, ForceMode.Force);
+                Rigidbody.AddForce(target_down, ForceMode.Force);
             }
         }
     }
 
     private void LimitVelocity()
     {
-        if (_rigidbody.velocity.magnitude > _maxSpeed)
+        if (Rigidbody.velocity.magnitude > _maxSpeed)
         {
-            Vector3 reduction = (_rigidbody.velocity.normalized * (_rigidbody.velocity.magnitude - _maxSpeed));
-            _rigidbody.AddForce(-reduction, ForceMode.VelocityChange);
+            Vector3 reduction = (Rigidbody.velocity.normalized * (Rigidbody.velocity.magnitude - _maxSpeed));
+            Rigidbody.AddForce(-reduction, ForceMode.VelocityChange);
         }
     }
     public void ChangeDirection() 

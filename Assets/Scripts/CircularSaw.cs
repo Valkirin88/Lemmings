@@ -19,10 +19,13 @@ public class CircularSaw : MonoBehaviour
     private GameObject[] _slicedObjects;
     private GameObject _slicedObject;
     private SlicedLogsHandler _slicedLogsHandler;
+    private SlicedLemmingsHandler _slicedLemmingsHandler;
 
     private void Start()
     {
         _slicedLogsHandler = new SlicedLogsHandler();
+        _slicedLemmingsHandler = new SlicedLemmingsHandler();
+        _bloodParticles.transform.SetParent(null);
     }
 
     private void OnTriggerEnter(Collider collision)
@@ -33,25 +36,35 @@ public class CircularSaw : MonoBehaviour
             {
                 _slicedObject = log.gameObject;
                 _crossSectionMaterial = _crossSectionWoodMaterial;
-                Slice();
+                SliceLog();
             }
         }
-        if(collision.gameObject.TryGetComponent<Lemming>(out Lemming lemming))
+
+        if (collision.gameObject.TryGetComponent<Lemming>(out Lemming lemming))
         {
-            _bloodParticles.transform.SetParent(null);
-            _bloodParticles.Play();
-            lemming.gameObject.transform.position = new Vector3(lemming.gameObject.transform.position.x, lemming.gameObject.transform.position.y, transform.position.z);
-            _slicedObject =  lemming.gameObject;
-            _crossSectionMaterial = _crossSectionLemmingMaterial;
-            Slice();
+            if (lemming.LifeTime >= 2)
+            {
+                _bloodParticles.Play();
+                lemming.gameObject.transform.position = new Vector3(lemming.gameObject.transform.position.x, lemming.gameObject.transform.position.y, transform.position.z);
+                _slicedObject = lemming.gameObject;
+                _crossSectionMaterial = _crossSectionLemmingMaterial;
+                SliceLemming();
+            }
         }
     }
 
-    private void Slice()
+    private void SliceLog()
     {
         _slicedObjects = Slice(new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z), new Vector3(0, 0, 1), new TextureRegion());
         Destroy(_slicedObject);
-        _slicedLogsHandler.HandleSlicedObject(_slicedObjects[0], _slicedObjects[1]);
+        _slicedLogsHandler.HandleSlicedLogs(_slicedObjects[0], _slicedObjects[1]);
+    }
+
+    private void SliceLemming()
+    {
+        _slicedObjects = Slice(new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z), new Vector3(0, 0, 1), new TextureRegion());
+        Destroy(_slicedObject);
+        _slicedLemmingsHandler.HandleSlicedLemmings(_slicedObjects[0], _slicedObjects[1]);
     }
 
     public GameObject[] Slice(Vector3 planeWorldPosition, Vector3 planeWorldDirection, TextureRegion region)

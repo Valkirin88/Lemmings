@@ -1,15 +1,15 @@
 using UnityEngine;
 
-public class SlicedLogsHandler
+public class SlicedLemmingsHandler 
 {
     private GameObject _gameObject1;
     private GameObject _gameObject2;
     private Rigidbody _rigidbody1;
     private Rigidbody _rigidbody2;
-    private Log _log1;
-    private Log _log2;
+    private Lemming _lemming1;
+    private Lemming _lemming2;
 
-    public void HandleSlicedLogs(GameObject gameObject1, GameObject gameObject2)
+    public void HandleSlicedLemmings(GameObject gameObject1, GameObject gameObject2)
     {
         _gameObject1 = gameObject1;
         _gameObject2 = gameObject2;
@@ -34,16 +34,16 @@ public class SlicedLogsHandler
 
     private void AddLogComponent()
     {
-        _log1 = _gameObject1.AddComponent<Log>();
-        _log2 = _gameObject2.AddComponent<Log>();
+        _lemming1 = _gameObject1.AddComponent<Lemming>();
+        _lemming2 = _gameObject2.AddComponent<Lemming>();
+        _lemming1._isDead = true;
+        _lemming2._isDead = true;
     }
 
     private void AdjustLogs()
     {
-        _log1.Rigidbody = _rigidbody1;
-        _log1.IsPileDestroyed = true;
-        _log2.IsPileDestroyed = true;
-        _log2.Rigidbody = _rigidbody2;
+        _lemming1.Rigidbody = _rigidbody1;
+        _lemming2.Rigidbody = _rigidbody2;
     }
 
     private void AdjustRigidboies()
@@ -52,7 +52,7 @@ public class SlicedLogsHandler
         _rigidbody2.isKinematic = false;
         _rigidbody1.mass = 10;
         _rigidbody2.mass = 10;
-        _rigidbody1.AddForce(new Vector3(200, 0, 0), ForceMode.Impulse);
-        _rigidbody2.AddForce(new Vector3(200, 0, 0), ForceMode.Impulse);
+        _rigidbody1.AddForce(new Vector3(200, 0, 10), ForceMode.Impulse);
+        _rigidbody2.AddForce(new Vector3(200, 0, -10), ForceMode.Impulse);
     }
 }
