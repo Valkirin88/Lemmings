@@ -18,6 +18,7 @@ public class LogsPile : MonoBehaviour
     {
         if (other.gameObject.GetComponent<Lemming>() && _isActive)
         {
+            Debug.Log("Pile destroy");
             _isActive = false;
             foreach 
                 (var log in _logs) 

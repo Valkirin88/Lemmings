@@ -67,7 +67,7 @@ public class Lemming : MonoBehaviour
         }
         if(collision.gameObject.GetComponent<CircularSaw>() && !_isDead)
         {
-            SawDeath();
+            //SawDeath();
         }
         if( collision.gameObject.GetComponent<Ground>())
         {

@@ -6,48 +6,57 @@ public class CircularSaw : MonoBehaviour
     [SerializeField]
     private float _speed = 10;
     [SerializeField]
+    private Material _crossSectionWoodMaterial;
+    [SerializeField]
+    private Material _crossSectionLemmingMaterial;
+    [SerializeField]
+    private ParticleSystem _bloodParticles;
+
+
     private Material _crossSectionMaterial;
 
     private Vector3 _sawRotation = new Vector3(0,0,1);
     private GameObject[] _slicedObjects;
-    private GameObject _woodObject;
+    private GameObject _slicedObject;
+    private SlicedLogsHandler _slicedLogsHandler;
 
-    private void OnCollisionEnter(Collision collision)
+    private void Start()
+    {
+        _slicedLogsHandler = new SlicedLogsHandler();
+    }
+
+    private void OnTriggerEnter(Collider collision)
     {
         if(collision.gameObject.TryGetComponent<Log>(out Log log))
         {
             if (log.LifeTime >= 2)
             {
-                _woodObject = log.gameObject;
-                _slicedObjects = Slice(new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z), new Vector3(0, 0, 1), new TextureRegion());
-                var leftPart = _slicedObjects[0];
-                var rightPart = _slicedObjects[1];
-                Destroy(_woodObject);
-                CapsuleCollider capsuleCollider = leftPart.AddComponent<CapsuleCollider>();
-                CapsuleCollider capsuleCollider2 = rightPart.AddComponent<CapsuleCollider>();
-                Rigidbody rigidbody1 = leftPart.AddComponent<Rigidbody>();
-                Rigidbody rigidbody2 = rightPart.AddComponent<Rigidbody>();
-                Log log1 = leftPart.AddComponent<Log>();
-                Log log2 = rightPart.AddComponent<Log>();
-                log1.Rigidbody = rigidbody1;
-                log1.IsPileDestroyed = true;
-                log2.IsPileDestroyed = true;
-                log2.Rigidbody = rigidbody2;
-                rigidbody1.isKinematic = false;
-                rigidbody2.isKinematic = false;
-                rigidbody1.mass = 10;
-                rigidbody2.mass = 10;
-                rigidbody1.AddForce(new Vector3(200, 0, 0), ForceMode.Impulse);
-                rigidbody2.AddForce(new Vector3(200, 0, 0), ForceMode.Impulse);
-                Debug.Log("logacc");
+                _slicedObject = log.gameObject;
+                _crossSectionMaterial = _crossSectionWoodMaterial;
+                Slice();
             }
         }
+        if(collision.gameObject.TryGetComponent<Lemming>(out Lemming lemming))
+        {
+            _bloodParticles.transform.SetParent(null);
+            _bloodParticles.Play();
+            lemming.gameObject.transform.position = new Vector3(lemming.gameObject.transform.position.x, lemming.gameObject.transform.position.y, transform.position.z);
+            _slicedObject =  lemming.gameObject;
+            _crossSectionMaterial = _crossSectionLemmingMaterial;
+            Slice();
+        }
+    }
+
+    private void Slice()
+    {
+        _slicedObjects = Slice(new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z), new Vector3(0, 0, 1), new TextureRegion());
+        Destroy(_slicedObject);
+        _slicedLogsHandler.HandleSlicedObject(_slicedObjects[0], _slicedObjects[1]);
     }
 
     public GameObject[] Slice(Vector3 planeWorldPosition, Vector3 planeWorldDirection, TextureRegion region)
     {
-        Debug.Log(_woodObject);
-        return _woodObject.SliceInstantiate(planeWorldPosition, planeWorldDirection, region, _crossSectionMaterial);
+        return _slicedObject.SliceInstantiate(planeWorldPosition, planeWorldDirection, region, _crossSectionMaterial);
     }
 
     private void Update()
