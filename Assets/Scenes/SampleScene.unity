@@ -536,7 +536,6 @@ GameObject:
   - component: {fileID: 524966063}
   - component: {fileID: 524966062}
   - component: {fileID: 524966061}
-  - component: {fileID: 524966064}
   - component: {fileID: 524966065}
   m_Layer: 0
   m_Name: Cube (4)
@@ -631,18 +630,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 524966059}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &524966064
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 524966059}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b19f278127ba7a429898003db2b24b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &524966065
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1084,7 +1071,6 @@ GameObject:
   - component: {fileID: 821533594}
   - component: {fileID: 821533593}
   - component: {fileID: 821533592}
-  - component: {fileID: 821533595}
   - component: {fileID: 821533596}
   m_Layer: 0
   m_Name: Cube (3)
@@ -1179,18 +1165,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 821533590}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &821533595
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 821533590}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b19f278127ba7a429898003db2b24b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &821533596
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1706,6 +1680,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: BloodSplatDirectional2
       objectReference: {fileID: 0}
+    - target: {fileID: 142478, guid: 120d855bc18f7fa4f8c46575d5629105, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 182506, guid: 120d855bc18f7fa4f8c46575d5629105, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 470266, guid: 120d855bc18f7fa4f8c46575d5629105, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.09588042
@@ -1761,6 +1743,10 @@ PrefabInstance:
     - target: {fileID: 19851746, guid: 120d855bc18f7fa4f8c46575d5629105, type: 3}
       propertyPath: playOnAwake
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19862916, guid: 120d855bc18f7fa4f8c46575d5629105, type: 3}
+      propertyPath: lengthInSec
+      value: 5.7
       objectReference: {fileID: 0}
     - target: {fileID: 19862916, guid: 120d855bc18f7fa4f8c46575d5629105, type: 3}
       propertyPath: playOnAwake
@@ -1866,7 +1852,6 @@ GameObject:
   - component: {fileID: 2020197719}
   - component: {fileID: 2020197718}
   - component: {fileID: 2020197717}
-  - component: {fileID: 2020197720}
   - component: {fileID: 2020197721}
   m_Layer: 0
   m_Name: Cube (2)
@@ -1961,18 +1946,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2020197715}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &2020197720
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2020197715}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b19f278127ba7a429898003db2b24b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &2020197721
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -113,6 +113,7 @@ public class Lemming : MonoBehaviour
     public void Dead()
     {
         _fireObject.SetActive(false);
+        IsInFire = false;
         Rigidbody.isKinematic = true;
         _isDead = true;
         _collider.enabled = false;
