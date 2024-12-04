@@ -5,9 +5,9 @@ public class LogsPile : MonoBehaviour
     [SerializeField]
     private Log[] _logs;
     [SerializeField]
-    private int _leftImpulse = -200;
+    private int _leftImpulse = -400;
     [SerializeField]
-    private int _rightImpulse = 300;
+    private int _rightImpulse = 500;
 
     private bool _isActive = true;
     private int _numberLogsMovengLeft = 3;

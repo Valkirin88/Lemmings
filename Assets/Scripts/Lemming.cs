@@ -59,8 +59,10 @@ public class Lemming : MonoBehaviour
         }
         if (collision.gameObject.TryGetComponent<Log>(out Log wood))
         {
+            
             if (wood.IsDangerous)
             {
+                Debug.Log("wood collided");
                 Dead();
                 ShowDeath();
             }

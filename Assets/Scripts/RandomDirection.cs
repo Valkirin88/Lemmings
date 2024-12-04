@@ -7,7 +7,7 @@ public class RandomDirection
     private Vector3 _direction;
     public RandomDirection()
     {
-        _directionsAngles = new int[] { 0,45, 90, 135, 180, 225, 270};
+        _directionsAngles = new int[] { 0,45, 90, 135, 180, 225, 270, 315};
     }
 
     public Vector3 GetDirection()
