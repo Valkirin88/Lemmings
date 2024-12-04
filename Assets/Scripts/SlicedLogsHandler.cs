@@ -52,7 +52,7 @@ public class SlicedLogsHandler
         _rigidbody2.isKinematic = false;
         _rigidbody1.mass = 10;
         _rigidbody2.mass = 10;
-        _rigidbody1.AddForce(new Vector3(200, 0, 0), ForceMode.Impulse);
-        _rigidbody2.AddForce(new Vector3(200, 0, 0), ForceMode.Impulse);
+        _rigidbody1.AddForce(new Vector3(300, 0, 20), ForceMode.Impulse);
+        _rigidbody2.AddForce(new Vector3(300, 0, -20), ForceMode.Impulse);
     }
 }

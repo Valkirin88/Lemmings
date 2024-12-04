@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class InputHandler 
 {
-    public event Action<Lemming> OnLemmingClicked;
+    public event Action<Lemming, Vector3> OnLemmingClicked;
     public event Action<Lemming> OnLemmingUnclicked;
     public event Action<Vector3> OnMousebuttonDownStayed;
 
@@ -28,23 +28,25 @@ public class InputHandler
                 if (hit.collider.gameObject.TryGetComponent<LemmingInputCollider>(out LemmingInputCollider lemmingInputCollider))
                     {
                         _lemming = lemmingInputCollider.Lemming;
-                        OnLemmingClicked?.Invoke(_lemming);
+                        
+                    if (_lemming != null)
+                    {
+                        Ray ray1 = Camera.main.ScreenPointToRay(Input.mousePosition);
+                        RaycastHit hit1;
+
+                        if (Physics.Raycast(ray1, out hit1, float.MaxValue, _hanglayerMask))
+                        {
+                            OnLemmingClicked?.Invoke(_lemming, hit1.point);
+                           // OnMousebuttonDownStayed?.Invoke(hit1.point);
+                        }
                     }
+                }
                 }
         }
 
-        if(Input.GetMouseButton(0))
+        if(Input.GetMouseButtonDown(0))
         {
-            if (_lemming != null)
-            {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-
-                if (Physics.Raycast(ray, out hit, float.MaxValue, _hanglayerMask))
-                {
-                    OnMousebuttonDownStayed?.Invoke(hit.point);
-                }
-            }
+           
         }
 
         if(Input.GetMouseButtonUp(0))

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class LemmingsController : IDisposable
 { 
@@ -14,15 +15,17 @@ public class LemmingsController : IDisposable
         _inputHandler = inputHandler;
         _lemmings = lemmings;
         _inputHandler.OnLemmingClicked += ChangeDirection;
-        _inputHandler.OnLemmingUnclicked += Drop;
-        _inputHandler.OnMousebuttonDownStayed += SetHangPosition;
+       // _inputHandler.OnLemmingUnclicked += Drop;
+        //_inputHandler.OnMousebuttonDownStayed += SetHangPosition;
     }
 
-    private void ChangeDirection(Lemming lemming)
+    private void ChangeDirection(Lemming lemming, Vector3 pos)
     {
-     //   lemming.ChangeDirection();
-     _lemming = lemming;
+        _lemming = lemming;
+        _lemming.ChangeDirection();
+        
         _lemming.HangUp();
+        SetHangPosition(pos);
     }
     private void Drop(Lemming lemming)
     {
@@ -32,11 +35,13 @@ public class LemmingsController : IDisposable
     private void SetHangPosition(Vector3 position)
     {
         _lemming.SetHangPosition(position);
+        Drop(_lemming);
     }
 
     public void Dispose() 
     {
-        _inputHandler.OnLemmingClicked += ChangeDirection;
+        _inputHandler.OnLemmingClicked -= ChangeDirection;
+        _inputHandler.OnMousebuttonDownStayed -= SetHangPosition;
     }
 
 }

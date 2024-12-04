@@ -12,7 +12,7 @@ public class Lemming : MonoBehaviour
     [SerializeField]
     private ParticleSystem _bloodSpill;
     [SerializeField]
-    private MeshRenderer _meshRenderer;
+    private GameObject _meshObject;
     [SerializeField]
     private Collider _collider;
     [SerializeField]
@@ -22,12 +22,15 @@ public class Lemming : MonoBehaviour
     [SerializeField]
     private GameObject _fireObject;
 
-    private float _moveSpeed = 50f;
-    private float _dropSpeed = 500f;
-    private float _maxSpeed = 2;
+    private Vector3 _hangPosition;
 
-    private bool _isHangedUp;
-    private bool _isGrounded;
+    private float _moveSpeed = 150f;
+    private float _dropSpeed = 2000f;
+    private float _maxSpeed = 2;
+    private float _rotationSpeed = 1000;
+
+    public bool _isHangedUp;
+    public bool _isGrounded;
 
     private RandomDirection _randomDirection;
     private Vector3 _direction;
@@ -61,16 +64,12 @@ public class Lemming : MonoBehaviour
                 Dead();
                 ShowDeath();
             }
-
         }
         if(collision.gameObject.GetComponent<CircularSaw>() && !_isDead)
         {
             //SawDeath();
         }
-        if( collision.gameObject.GetComponent<Ground>())
-        {
-            _isGrounded = true;
-        }
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -85,7 +84,12 @@ public class Lemming : MonoBehaviour
     {
         if(collision.gameObject.GetComponent<Lemming>())
         {
+            Debug.Log("collision");
             ChangeDirection();
+        }
+        if (collision.gameObject.GetComponent<Ground>())
+        {
+            _isGrounded = true;
         }
     }
 
@@ -117,20 +121,20 @@ public class Lemming : MonoBehaviour
         Rigidbody.isKinematic = true;
         _isDead = true;
         _collider.enabled = false;
-        _meshRenderer.enabled = false;
+        _meshObject.SetActive(false);
     }
 
     private void Update()
     {
         if (!_isDead && !_isHangedUp)
         {
-            transform.eulerAngles = _direction;
-           if(Rigidbody.velocity.magnitude < 0.01)
+           if(Rigidbody.velocity.magnitude < 0.1)
            {
-                ChangeDirection();
+               // ChangeDirection();
            }
         }
         LifeTime += Time.deltaTime;
+        Rotate();
     }
 
     public void HangUp()
@@ -141,21 +145,26 @@ public class Lemming : MonoBehaviour
 
     public void Drop()
     {
+        if(_isHangedUp && transform.position == _hangPosition)
         _isHangedUp = false;
     }
 
     public void SetHangPosition(Vector3 position)
     {
+        _hangPosition = position;
         if(_isHangedUp) 
         {
-            transform.position = position;
+            transform.position = _hangPosition;
         }
     }
 
     private void FixedUpdate()
     {
-        Move();
-        LimitVelocity();
+        if (_isGrounded)
+        {
+            Move();
+            LimitVelocity();
+        }
     }
 
     private void Move()
@@ -188,6 +197,10 @@ public class Lemming : MonoBehaviour
     public void ChangeDirection() 
     {
         _direction = _randomDirection.GetDirection();
-        transform.eulerAngles = _direction;
+    }
+
+    private void Rotate()
+    {
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(_direction), _rotationSpeed * Time.deltaTime);
     }
 }

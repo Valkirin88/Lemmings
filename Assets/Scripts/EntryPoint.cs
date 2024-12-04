@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class EntryPoint : MonoBehaviour
 {
@@ -7,11 +8,13 @@ public class EntryPoint : MonoBehaviour
     private List<Lemming> _lemmings;
     [SerializeField]
     private GameObject _groundObject;
+
     [SerializeField]
     private LayerMask _hangLayerMask;
     [SerializeField]
     private LayerMask _lemmingLayerMask;
 
+    
     private InputHandler _inputHandler;
     private LemmingsController _lemmingsController;
 

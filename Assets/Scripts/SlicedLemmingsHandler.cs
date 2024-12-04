@@ -52,7 +52,7 @@ public class SlicedLemmingsHandler
         _rigidbody2.isKinematic = false;
         _rigidbody1.mass = 10;
         _rigidbody2.mass = 10;
-        _rigidbody1.AddForce(new Vector3(200, 0, 10), ForceMode.Impulse);
-        _rigidbody2.AddForce(new Vector3(200, 0, -10), ForceMode.Impulse);
+        _rigidbody1.AddForce(new Vector3(3000, 0, 40), ForceMode.Impulse);
+        _rigidbody2.AddForce(new Vector3(3000, 0, -40), ForceMode.Impulse);
     }
 }
