@@ -15,8 +15,14 @@ public class LemmingsController : IDisposable
         _inputHandler = inputHandler;
         _lemmings = lemmings;
         _inputHandler.OnLemmingClicked += ChangeDirection;
-       // _inputHandler.OnLemmingUnclicked += Drop;
+        // _inputHandler.OnLemmingUnclicked += Drop;
         //_inputHandler.OnMousebuttonDownStayed += SetHangPosition;
+        _inputHandler.OnLemmingUnclicked += SetDirection;
+    }
+
+    private void SetDirection(Vector3 vector)
+    {
+        _lemming.SetDirection(vector);
     }
 
     private void ChangeDirection(Lemming lemming, Vector3 pos)

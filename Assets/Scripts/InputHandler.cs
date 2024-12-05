@@ -4,7 +4,7 @@ using UnityEngine;
 public class InputHandler 
 {
     public event Action<Lemming, Vector3> OnLemmingClicked;
-    public event Action<Lemming> OnLemmingUnclicked;
+    public event Action<Vector3> OnLemmingUnclicked;
     public event Action<Vector3> OnMousebuttonDownStayed;
 
     private Lemming _lemming;
@@ -53,7 +53,15 @@ public class InputHandler
         {
             if (_lemming != null)
             {
-                OnLemmingUnclicked?.Invoke(_lemming);
+
+                Ray ray1 = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit1;
+
+                if (Physics.Raycast(ray1, out hit1, float.MaxValue, _hanglayerMask))
+                {
+                    OnLemmingUnclicked?.Invoke(hit1.point);
+                    // OnMousebuttonDownStayed?.Invoke(hit1.point);
+                }
                 _lemming = null;
             }
         }

@@ -36,8 +36,8 @@ public class SlicedLemmingsHandler
     {
         _lemming1 = _gameObject1.AddComponent<Lemming>();
         _lemming2 = _gameObject2.AddComponent<Lemming>();
-        _lemming1._isDead = true;
-        _lemming2._isDead = true;
+        _lemming1.IsDead = true;
+        _lemming2.IsDead = true;
     }
 
     private void AdjustLogs()

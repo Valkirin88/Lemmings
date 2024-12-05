@@ -3,7 +3,7 @@ using UnityEngine;
 public class Lemming : MonoBehaviour
 {
     public bool IsInFire;
-    public bool _isDead;
+    public bool IsDead;
     public float LifeTime;
 
     public Rigidbody Rigidbody;
@@ -24,16 +24,23 @@ public class Lemming : MonoBehaviour
 
     private Vector3 _hangPosition;
 
-    private float _moveSpeed = 150f;
+    private float _moveSpeed = 200f;
     private float _dropSpeed = 2000f;
     private float _maxSpeed = 2;
-    private float _rotationSpeed = 1000;
+    private float _rotationSpeed = 500;
+    private float _afterLastPositionTime;
+    private float _betweenCollisionTime = 1f;
 
-    public bool _isHangedUp;
-    public bool _isGrounded;
+    private Vector3 _lastPosition;
+    private float _beforeRotationDistance = 1f;
+
+    public bool IsHangedUp;
+    public bool IsGrounded;
+    public bool IsInTargetPosition;
 
     private RandomDirection _randomDirection;
     private Vector3 _direction;
+    private bool _isDirectianSetManually;
 
     private void Start()
     {
@@ -54,8 +61,8 @@ public class Lemming : MonoBehaviour
             {
                 IsInFire = true;
             }
-            if(!_isDead) 
-                ChangeDirection();
+            //if(!IsDead) 
+            //    ChangeDirection();
         }
         if (collision.gameObject.TryGetComponent<Log>(out Log wood))
         {
@@ -67,11 +74,6 @@ public class Lemming : MonoBehaviour
                 ShowDeath();
             }
         }
-        if(collision.gameObject.GetComponent<CircularSaw>() && !_isDead)
-        {
-            //SawDeath();
-        }
-
     }
 
     private void OnTriggerEnter(Collider other)
@@ -80,18 +82,22 @@ public class Lemming : MonoBehaviour
         {
             SetFire();
         }
+        if(other.gameObject.GetComponent<Target>())
+        {
+            IsInTargetPosition = true;
+        }
     }
 
     private void OnCollisionStay(Collision collision)
     {
-        if(collision.gameObject.GetComponent<Lemming>())
-        {
-            Debug.Log("collision");
-            ChangeDirection();
-        }
+        //if(collision.gameObject.GetComponent<Lemming>())
+        //{
+        //    Debug.Log("collision");
+        //    ChangeDirection();
+        //}
         if (collision.gameObject.GetComponent<Ground>())
         {
-            _isGrounded = true;
+            IsGrounded = true;
         }
     }
 
@@ -121,40 +127,61 @@ public class Lemming : MonoBehaviour
         _fireObject.SetActive(false);
         IsInFire = false;
         Rigidbody.isKinematic = true;
-        _isDead = true;
+        IsDead = true;
         _collider.enabled = false;
         _meshObject.SetActive(false);
     }
 
     private void Update()
     {
-        if (!_isDead && !_isHangedUp)
+        if (!IsDead && !IsHangedUp && !IsInTargetPosition)
         {
-           if(Rigidbody.velocity.magnitude < 0.1)
-           {
-               // ChangeDirection();
-           }
+            Rotate();
+            RotateIflongTimeNoMove();
         }
         LifeTime += Time.deltaTime;
-        Rotate();
+
+    }
+
+    public void SetDirection(Vector3 position)
+    {
+        _isDirectianSetManually = true;
+        Vector3 direction = new Vector3(position.x, transform.position.y, position.z);
+        transform.LookAt(direction);
+    }
+
+    private void RotateIflongTimeNoMove()
+    {
+            _afterLastPositionTime += Time.deltaTime;
+            if (_afterLastPositionTime > _betweenCollisionTime)
+            {
+                _afterLastPositionTime = 0;
+                if (Vector3.Distance(transform.position, _lastPosition) < _beforeRotationDistance)
+                {
+                    ChangeDirection();
+                }
+                _lastPosition = transform.position;
+                Debug.Log(Vector3.Distance(transform.position, _lastPosition));
+            }
+        
     }
 
     public void HangUp()
     {
-        _isGrounded = false;
-        _isHangedUp = true;
+        IsGrounded = false;
+        IsHangedUp = true;
     }
 
     public void Drop()
     {
-        if(_isHangedUp && transform.position == _hangPosition)
-        _isHangedUp = false;
+        if(IsHangedUp && transform.position == _hangPosition)
+        IsHangedUp = false;
     }
 
     public void SetHangPosition(Vector3 position)
     {
         _hangPosition = position;
-        if(_isHangedUp) 
+        if(IsHangedUp) 
         {
             transform.position = _hangPosition;
         }
@@ -162,7 +189,7 @@ public class Lemming : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_isGrounded)
+        if (IsGrounded && !IsInTargetPosition)
         {
             Move();
             LimitVelocity();
@@ -171,8 +198,6 @@ public class Lemming : MonoBehaviour
 
     private void Move()
     {
-        if (!_isDead && !_isHangedUp)
-        {
             var target = transform.TransformDirection(Vector3.forward) * _moveSpeed;
             Rigidbody.AddForce(target, ForceMode.Force);
             if(IsInFire) 
@@ -180,12 +205,11 @@ public class Lemming : MonoBehaviour
                  target = transform.TransformDirection(Vector3.forward) * _moveSpeed * 5;
                 Rigidbody.AddForce(target, ForceMode.Force);
             }
-            if (!_isGrounded)
+            if (!IsGrounded)
             {
                 var target_down = transform.TransformDirection(Vector3.down) * _dropSpeed;
                 Rigidbody.AddForce(target_down, ForceMode.Force);
             }
-        }
     }
 
     private void LimitVelocity()
@@ -198,11 +222,14 @@ public class Lemming : MonoBehaviour
     }
     public void ChangeDirection() 
     {
+
         _direction = _randomDirection.GetDirection();
+        _isDirectianSetManually = false;
     }
 
     private void Rotate()
     {
+        if (!_isDirectianSetManually)
         transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(_direction), _rotationSpeed * Time.deltaTime);
     }
 }
